@@ -9,7 +9,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 # CREATE user
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def create_user(user: schemas.UserClient, db: Session = Depends(get_db)):
-	encrypted_password = utils.hashing(user.password)
+	encrypted_password = utils.hash(user.password)
 	user.password = encrypted_password
 	new_user = models.User(**user.dict())
 	db.add(new_user)
